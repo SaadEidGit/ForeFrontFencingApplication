@@ -7,14 +7,18 @@ import java.util.Calendar;
 
 public class Form extends JFrame implements FormView{
     private JPanel buttonPanel;
-    private JButton addSideButton, addGateButton;
+    private JButton addSideButton, removeSideButton, addGateButton, removeGateButton;
     private JScrollPane scrollPane;
     private JPanel contentPanel;
     private JTabbedPane tabbedPane;
-    public JTextField firstNameField, lastNameField, emailField, phoneField, addressArea, priceArea;
-    public JButton registerButton, resetButton;
+    public JTextField firstNameField, lastNameField, emailField, phoneField, addressArea, priceArea, totalPriceField;
+    //CreateUser
+    public JTextField firstNameCreateUserField, lastNameCreateUserField, emailCreateUserField, phoneCreateUserField, addressCreateUserArea;
+    public JButton createNewClientButton, resetButton, resetCreateUserFormButton, saveQuoteButton;
     public JComboBox daysCombo, monthsCombo, yearsCombo;
     private int combinationGateCount = 0, combinationSideCount = 0;
+    CreateClientController createClientController;
+    CreateQuoteController createQuoteController;
     private String dates[]
             = { "1", "2", "3", "4", "5",
             "6", "7", "8", "9", "10",
@@ -32,13 +36,16 @@ public class Form extends JFrame implements FormView{
     public Form(){
         super("Registration Form");
         setBounds(300, 90, 900, 600);
-        setSize(400,500);
+        setSize(450,500);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(true);
         setLayout(new BorderLayout());
 
         Model model = new Model();
         model.addView(this);
+
+        createClientController = new CreateClientController(model, this);
+        createQuoteController = new CreateQuoteController(model, this);
 
         tabbedPane = new JTabbedPane();
         tabbedPane.add("Create New User", CreateUser());
@@ -141,6 +148,16 @@ public class Form extends JFrame implements FormView{
             }
         });
 
+        removeSideButton = new JButton("Remove Side");
+        removeSideButton.setHorizontalAlignment(JButton.CENTER);
+        removeSideButton.setVerticalAlignment(JButton.CENTER);
+        removeSideButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addGate();
+            }
+        });
+
         addGateButton = new JButton("Add Gate");
         addGateButton.setHorizontalAlignment(JButton.CENTER);
         addGateButton.setVerticalAlignment(JButton.CENTER);
@@ -151,6 +168,15 @@ public class Form extends JFrame implements FormView{
             }
         });
 
+        removeGateButton = new JButton("Remove Gate");
+        removeGateButton.setHorizontalAlignment(JButton.CENTER);
+        removeGateButton.setVerticalAlignment(JButton.CENTER);
+        removeGateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addGate();
+            }
+        });
         contentPanel = new JPanel();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
@@ -160,9 +186,18 @@ public class Form extends JFrame implements FormView{
         scrollPane = new JScrollPane(contentPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
+        JPanel totalPricePanel = new JPanel();
+        totalPricePanel.setLayout(new GridLayout(1,2));
+        JLabel totalPriceLabel = new JLabel("Total Price:");
+        totalPricePanel.setSize(new Dimension(450, 50));
+        totalPriceField = new JTextField();
+        totalPriceField.setBorder(BorderFactory.createLineBorder(Color.black));
+        totalPricePanel.add(totalPriceLabel);
+        totalPricePanel.add(totalPriceField);
+
         JPanel quoteButtonPanel = new JPanel();
         quoteButtonPanel.setLayout(new BoxLayout(quoteButtonPanel, BoxLayout.X_AXIS));
-        JButton quoteButton = new JButton("Create Quote");
+        JButton quoteButton = new JButton("Generate Quote");
         quoteButton.setHorizontalAlignment(JButton.CENTER);
         quoteButton.setVerticalAlignment(JButton.CENTER);
         quoteButton.addActionListener(new ActionListener() {
@@ -181,6 +216,27 @@ public class Form extends JFrame implements FormView{
                 System.out.println("Address: " + address);
             }
         });
+
+        saveQuoteButton = new JButton("Save Quote");
+        saveQuoteButton.setHorizontalAlignment(JButton.CENTER);
+        saveQuoteButton.setVerticalAlignment(JButton.CENTER);
+        saveQuoteButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String firstName = firstNameField.getText();
+                String lastName = lastNameField.getText();
+                String email = emailField.getText();
+                String phone = phoneField.getText();
+                String address = addressArea.getText();
+
+                // Do something with the registration data
+                System.out.println("First Name: " + firstName);
+                System.out.println("Last Name: " + lastName);
+                System.out.println("Email: " + email);
+                System.out.println("Phone Number: " + phone);
+                System.out.println("Address: " + address);
+            }
+        });
+
         resetButton = new JButton("Reset Form");
         resetButton.setHorizontalAlignment(JButton.CENTER);
         resetButton.setVerticalAlignment(JButton.CENTER);
@@ -202,12 +258,16 @@ public class Form extends JFrame implements FormView{
         });
 
         quoteButtonPanel.add(quoteButton);
+        quoteButtonPanel.add(saveQuoteButton);
         quoteButtonPanel.add(resetButton);
         buttonPanel.add(addSideButton);
+        buttonPanel.add(removeSideButton);
         buttonPanel.add(addGateButton);
+        buttonPanel.add(removeGateButton);
         mainPanel.add(leftPane);
         mainPanel.add(buttonPanel);
         mainPanel.add(scrollPane);
+        mainPanel.add(totalPricePanel);
         mainPanel.add(quoteButtonPanel);
 
         scrollPane = new JScrollPane(mainPanel);
@@ -225,78 +285,48 @@ public class Form extends JFrame implements FormView{
 
         JLabel firstNameLabel = new JLabel("First Name:");
         leftPane.add(firstNameLabel);
-        firstNameField = new JTextField();
-        firstNameField.setBorder(BorderFactory.createLineBorder(Color.black));
-        leftPane.add(firstNameField);
+        firstNameCreateUserField = new JTextField();
+        firstNameCreateUserField.setBorder(BorderFactory.createLineBorder(Color.black));
+        leftPane.add(firstNameCreateUserField);
 
         JLabel lastNameLabel = new JLabel("Last Name:");
         leftPane.add(lastNameLabel);
-        lastNameField = new JTextField();
-        lastNameField.setBorder(BorderFactory.createLineBorder(Color.black));
-        leftPane.add(lastNameField);
+        lastNameCreateUserField = new JTextField();
+        lastNameCreateUserField.setBorder(BorderFactory.createLineBorder(Color.black));
+        leftPane.add(lastNameCreateUserField);
 
         JLabel emailLabel = new JLabel("Email:");
         leftPane.add(emailLabel);
-        emailField = new JTextField();
-        emailField.setBorder(BorderFactory.createLineBorder(Color.black));
-        leftPane.add(emailField);
+        emailCreateUserField = new JTextField();
+        emailCreateUserField.setBorder(BorderFactory.createLineBorder(Color.black));
+        leftPane.add(emailCreateUserField);
 
         JLabel phoneLabel = new JLabel("Phone Number:");
         leftPane.add(phoneLabel);
-        phoneField = new JTextField();
-        phoneField.setBorder(BorderFactory.createLineBorder(Color.black));
-        leftPane.add(phoneField);
+        phoneCreateUserField = new JTextField();
+        phoneCreateUserField.setBorder(BorderFactory.createLineBorder(Color.black));
+        leftPane.add(phoneCreateUserField);
 
         JLabel addressLabel = new JLabel("Address:");
         leftPane.add(addressLabel);
-        addressArea = new JTextField();
-        addressArea.setBorder(BorderFactory.createLineBorder(Color.black));
-        leftPane.add(addressArea);
+        addressCreateUserArea = new JTextField();
+        addressCreateUserArea.setBorder(BorderFactory.createLineBorder(Color.black));
+        leftPane.add(addressCreateUserArea);
 
         JPanel createButtonPanel = new JPanel();
         createButtonPanel.setLayout(new BoxLayout(createButtonPanel, BoxLayout.X_AXIS));
-        registerButton = new JButton("Create New Client");
-        registerButton.setHorizontalAlignment(JButton.CENTER);
-        registerButton.setVerticalAlignment(JButton.CENTER);
-        registerButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String firstName = firstNameField.getText();
-                String lastName = lastNameField.getText();
-                String email = emailField.getText();
-                String phone = phoneField.getText();
-                String address = addressArea.getText();
+        createNewClientButton = new JButton("Create New Client");
+        createNewClientButton.setHorizontalAlignment(JButton.CENTER);
+        createNewClientButton.setVerticalAlignment(JButton.CENTER);
+        createNewClientButton.addActionListener(createClientController);
 
-                // Do something with the registration data
-                System.out.println("First Name: " + firstName);
-                System.out.println("Last Name: " + lastName);
-                System.out.println("Email: " + email);
-                System.out.println("Phone Number: " + phone);
-                System.out.println("Address: " + address);
-            }
-        });
+        resetCreateUserFormButton = new JButton("Reset Form");
+        resetCreateUserFormButton.setHorizontalAlignment(JButton.CENTER);
+        resetCreateUserFormButton.setVerticalAlignment(JButton.CENTER);
+        resetCreateUserFormButton.addActionListener(createClientController);
 
-        resetButton = new JButton("Reset Form");
-        resetButton.setHorizontalAlignment(JButton.CENTER);
-        resetButton.setVerticalAlignment(JButton.CENTER);
-        resetButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String firstName = firstNameField.getText();
-                String lastName = lastNameField.getText();
-                String email = emailField.getText();
-                String phone = phoneField.getText();
-                String address = addressArea.getText();
-
-                // Do something with the registration data
-                System.out.println("First Name: " + firstName);
-                System.out.println("Last Name: " + lastName);
-                System.out.println("Email: " + email);
-                System.out.println("Phone Number: " + phone);
-                System.out.println("Address: " + address);
-            }
-        });
-
-        createButtonPanel.add(registerButton);
-        createButtonPanel.add(resetButton);
+        createButtonPanel.add(createNewClientButton);
+        createButtonPanel.add(resetCreateUserFormButton);
         mainPanel.add(leftPane);
         mainPanel.add(createButtonPanel);
 
@@ -349,7 +379,8 @@ public class Form extends JFrame implements FormView{
     }
 
 
-    public void resetCreateForm(ArrayList<JTextField> mainPanelTextFields, ArrayList<JTextField> scrollPaneTextFields){
+    //use getTextFieldsFromPanel and getTextFieldsFromScrollPane
+    public void resetCreateQuoteForm(ArrayList<JTextField> mainPanelTextFields, ArrayList<JTextField> scrollPaneTextFields){
         //text fields from main pane
         for(JTextField field: mainPanelTextFields){
             field.setText("");
@@ -401,5 +432,13 @@ public class Form extends JFrame implements FormView{
 
     public static void main(String[] args) {
         new Form();
+    }
+
+    public void resetCreateUserForm() {
+        firstNameCreateUserField.setText("");
+        lastNameCreateUserField.setText("");
+        emailCreateUserField.setText("");
+        phoneCreateUserField.setText("");
+        addressCreateUserArea.setText("");
     }
 }
