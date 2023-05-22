@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class Form extends JFrame {
+public class Form extends JFrame implements FormView{
     private JPanel buttonPanel;
     private JButton addSideButton, addGateButton;
     private JScrollPane scrollPane;
@@ -36,6 +36,9 @@ public class Form extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(true);
         setLayout(new BorderLayout());
+
+        Model model = new Model();
+        model.addView(this);
 
         tabbedPane = new JTabbedPane();
         tabbedPane.add("Create New User", CreateUser());
@@ -389,6 +392,11 @@ public class Form extends JFrame {
         }
 
         return textFields;
+    }
+
+    @Override
+    public void update(FormEvent e) {
+
     }
 
     public static void main(String[] args) {

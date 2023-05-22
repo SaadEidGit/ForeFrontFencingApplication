@@ -1,6 +1,6 @@
 import java.util.EventObject;
 
-public class UserRegistrationFormEvent extends EventObject {
+public class FormEvent extends EventObject {
 
     /**
      * Constructs a prototypical Event.
@@ -8,7 +8,7 @@ public class UserRegistrationFormEvent extends EventObject {
      * @param model the object on which the Event initially occurred
      * @throws IllegalArgumentException if source is null
      */
-    public UserRegistrationFormEvent(Model model) {
+    public FormEvent(Model model) {
         super(model);
     }
 }
