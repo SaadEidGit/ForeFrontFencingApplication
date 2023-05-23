@@ -6,12 +6,13 @@ public class Model {
     private ArrayList<Side> sides;
     private ArrayList<Gate> gates;
     private ExcelFileService excelFileService;
-
     private String filePath = "C:\\Users\\saad_\\OneDrive\\Documents\\Client.xlsx";
 
     public Model(){
-        this.views = new ArrayList<>();
         this.totalPrice = 0;
+        this.views = new ArrayList<>();
+        this.sides = new ArrayList<>();
+        this.gates = new ArrayList<>();
         this.excelFileService = new ExcelFileService();
     }
 
@@ -38,6 +39,15 @@ public class Model {
     public void addGate(Gate gate){
         gates.add(gate);
     }
+    public void removeLastSide(Side side){
+        int lastIndex = sides.size() - 1;
+        sides.remove(lastIndex);
+    }
+
+    public void removeLastGate(Gate gate){
+        int lastIndex = gates.size() - 1;
+        gates.remove(lastIndex);
+    }
 
     public void setLinearSquareFootPrice(double price){
        this.linearSquareFootPrice = price;
@@ -53,5 +63,9 @@ public class Model {
         }
 
         return totalPrice + calculateTax(totalPrice, taxPercentage);
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 }

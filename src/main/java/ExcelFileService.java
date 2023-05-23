@@ -40,11 +40,7 @@ public class ExcelFileService {
             // Populate the index value of new row
             rowIndex = rowIndex + 1;
             createNewRow(workbook, sheet, rowIndex, client);
-//            for (Client client : Clients) {
-//                // Populate the index value of new row
-//                rowIndex = rowIndex + 1;
-//                createNewRow(workbook, sheet, rowIndex, client);
-//            }
+
             // Write updated Excel file
             outputStream = new FileOutputStream(filePath);
             workbook.write(outputStream);

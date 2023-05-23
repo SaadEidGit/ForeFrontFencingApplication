@@ -11,6 +11,18 @@ public class CreateQuoteController implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        if(e.getSource() == frame.addSideButton){
+            frame.addSideCombination();
+        }else if(e.getSource() == frame.addGateButton){
+            frame.addGate();
+        }else if(e.getSource() == frame.removeLastButton){
+            frame.removeLastPanel();
+        }else if(e.getSource() == frame.quoteButton){
+            //frame.addGate();
+        }else if(e.getSource() == frame.saveQuoteButton){
+            //frame.removeLastPanel();
+        }else if(e.getSource() == frame.resetButton){
+            frame.resetCreateQuoteForm(frame.getTextFieldsFromPanel(frame.mainSubPane), frame.getTextFieldsFromScrollPane(frame.scrollPane));
+        }
     }
 }
