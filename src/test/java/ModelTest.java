@@ -27,7 +27,8 @@ public class ModelTest {
 
         double taxPercentage = 0.13;
         double expectedTotalPrice = ((10.0 * 5.0) + (8.0 * 5.0) + 100.0) * (1.0 + taxPercentage);
-        double calculatedTotalPrice = model.calculateTotalPrice(taxPercentage);
+        model.calculateTotalPrice(taxPercentage);
+        double calculatedTotalPrice = model.getTotalPrice();
         assert calculatedTotalPrice == expectedTotalPrice;
 
     }

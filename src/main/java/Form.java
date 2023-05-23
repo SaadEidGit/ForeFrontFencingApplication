@@ -170,10 +170,12 @@ public class Form extends JFrame implements FormView{
 
         JPanel totalPricePanel = new JPanel();
         totalPricePanel.setLayout(new GridLayout(1,2));
-        JLabel totalPriceLabel = new JLabel("Total Price:");
+        JLabel totalPriceLabel = new JLabel("Total Price With Tax:");
         totalPricePanel.setSize(new Dimension(450, 50));
         totalPriceField = new JTextField();
         totalPriceField.setBorder(BorderFactory.createLineBorder(Color.black));
+        totalPriceField.setFont(new Font("Serif",Font.BOLD,26));
+        totalPriceField.setHorizontalAlignment(JTextField.CENTER);
         totalPriceField.setEnabled(false);
         totalPricePanel.add(totalPriceLabel);
         totalPricePanel.add(totalPriceField);
@@ -337,16 +339,19 @@ public class Form extends JFrame implements FormView{
         }
     }
 
-public void resetCreateQuoteForm(ArrayList<JTextField> mainPanelTextFields, ArrayList<JTextField> scrollPaneTextFields){
+    public void resetCreateQuoteForm(ArrayList<JTextField> mainPanelTextFields){
         //text fields from main pane
         for(JTextField field: mainPanelTextFields){
             field.setText("");
         }
 
-        //text fields from scroll pane
-        for(JTextField field: scrollPaneTextFields){
-            field.setText("");
+        while(contentPanelArrayCount > 0){
+            contentPanelArrayCount--;
+            contentPanel.remove(contentPanelArray[contentPanelArrayCount]);
         }
+
+        validate();
+        repaint();
     }
 
     public static ArrayList<JTextField> getTextFieldsFromPanel(JPanel panel) {
@@ -381,6 +386,7 @@ public void resetCreateQuoteForm(ArrayList<JTextField> mainPanelTextFields, Arra
 
         return textFields;
     }
+
 
     @Override
     public void update(FormEvent e) {

@@ -19,16 +19,49 @@ public class CreateQuoteController implements ActionListener {
             frame.addGate();
         }else if(e.getSource() == frame.removeLastButton){
             frame.removeLastPanel();
+            frame.contentPanelArray[frame.contentPanelArray.length - 1] = null;
+            frame.contentPanelArrayCount--;
+
+            for (int i = 0; i < frame.contentPanelArray.length - 1; i++){
+                if (frame.contentPanelArray[i] != null && frame.contentPanelArray[i].getClass().equals(JPanel.class)){
+                    JPanel panel = frame.contentPanelArray[i];
+                    Component[] components = panel.getComponents();
+                    for (Component comp : components) {
+                        if(comp.getClass().equals(JLabel.class)){
+                            JLabel label = (JLabel) components[0];
+
+                            if (label.getText().equals("Gate Price   ")){
+                                JTextField textField = (JTextField) components[1];
+                                model.removeLastGate(new Gate(Double.parseDouble(textField.getText())));
+                                break;
+                            }else if (label.getText().equals("Side Length")){
+                                JTextField textField = (JTextField) components[1];
+                                model.removeLastSide(new Side(Double.parseDouble(textField.getText())));
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
         }else if(e.getSource() == frame.quoteButton){
+            //TODO: add the correct panel to their respective lists in the model, either gates, or sides.
             for (int i = 0; i < frame.contentPanelArray.length - 1; i++){
                 if (frame.contentPanelArray[i] != null && frame.contentPanelArray[i].getClass().equals(JPanel.class)){
                     JPanel panel = frame.contentPanelArray[i];
                     Component[] components = panel.getComponents();
                     for (Component component : components) {
-                        if (component.getClass().equals(JTextField.class)) {
-                            JTextField textField = (JTextField) components[components.length - 1];
-                            model.addSide(new Side(Double.parseDouble(textField.getText())));
-                            System.out.println(Double.parseDouble(textField.getText()));
+                        if(component.getClass().equals(JLabel.class)){
+                            JLabel label = (JLabel) components[0];
+
+                            if (label.getText().equals("Gate Price   ")){
+                                JTextField textField = (JTextField) components[1];
+                                model.addGate(new Gate(Double.parseDouble(textField.getText())));
+                                break;
+                            }else if (label.getText().equals("Side Length")){
+                                JTextField textField = (JTextField) components[1];
+                                model.addSide(new Side(Double.parseDouble(textField.getText())));
+                                break;
+                            }
                         }
                     }
                 }
@@ -39,6 +72,7 @@ public class CreateQuoteController implements ActionListener {
                 JOptionPane.showMessageDialog(frame, "Please fill in all fields before pressing Generating Quote button.");
             }else{
                 //Setting the total price in the total price field
+                model.setLinearSquareFootPrice(Double.parseDouble(frame.priceArea.getText()));
                 model.calculateTotalPrice(Double.parseDouble(frame.taxPercentageField.getText()));
                 frame.totalPriceField.setText(String.valueOf(model.getTotalPrice()));
                 frame.saveQuoteButton.setEnabled(true);
@@ -67,7 +101,7 @@ public class CreateQuoteController implements ActionListener {
              * and taxPercentage to the pdf method
              */
         }else if(e.getSource() == frame.resetButton){
-            frame.resetCreateQuoteForm(frame.getTextFieldsFromPanel(frame.mainSubPane), frame.getTextFieldsFromScrollPane(frame.scrollPane));
+            frame.resetCreateQuoteForm(frame.getTextFieldsFromPanel(frame.mainSubPane));
         }
     }
 }

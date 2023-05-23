@@ -24,12 +24,8 @@ public class Model {
         return totalPrice;
     }
 
-    public double calculateSidePrice(double length, double linearFootPrice){
-        return length*linearFootPrice;
-    }
-
     public double calculateTax(double amount, double taxPercentage){
-        return amount*taxPercentage;
+        return amount*(taxPercentage/100);
     }
 
     public void addClientToExcel(Client client){
@@ -57,7 +53,7 @@ public class Model {
        this.linearSquareFootPrice = price;
     }
 
-    public double calculateTotalPrice(double taxPercentage){
+    public void calculateTotalPrice(double taxPercentage){
         for(Side side: sides){
             totalPrice += side.getSideLength() * this.linearSquareFootPrice;
         }
@@ -66,7 +62,7 @@ public class Model {
             totalPrice += gate.getGatePrice();
         }
 
-        return totalPrice + calculateTax(totalPrice, taxPercentage);
+        totalPrice = totalPrice + calculateTax(totalPrice, taxPercentage);
     }
 
     public void setFilePath(String filePath) {
