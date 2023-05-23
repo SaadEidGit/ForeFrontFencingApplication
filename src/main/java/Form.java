@@ -189,8 +189,7 @@ public class Form extends JFrame implements FormView{
         saveQuoteButton.setHorizontalAlignment(JButton.CENTER);
         saveQuoteButton.setVerticalAlignment(JButton.CENTER);
         saveQuoteButton.addActionListener(createQuoteController);
-        //TODO: once done testing the saveQuoteButton, uncomment the following line
-        //saveQuoteButton.setEnabled(false);
+        saveQuoteButton.setEnabled(false);
 
         resetButton = new JButton("Reset Form");
         resetButton.setHorizontalAlignment(JButton.CENTER);

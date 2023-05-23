@@ -35,13 +35,14 @@ public class CreateQuoteController implements ActionListener {
             }
 
             //Error handling if the price and tax percentage fields are empty
-            if (frame.priceArea.getText() == null || frame.taxPercentageField.getText() == null){
-                JOptionPane.showMessageDialog(frame, "Please fill in all fields before Generating Quote.");
+            if (frame.priceArea.getText().isEmpty() || frame.taxPercentageField.getText().isEmpty()){
+                JOptionPane.showMessageDialog(frame, "Please fill in all fields before pressing Generating Quote button.");
+            }else{
+                //Setting the total price in the total price field
+                model.calculateTotalPrice(Double.parseDouble(frame.taxPercentageField.getText()));
+                frame.totalPriceField.setText(String.valueOf(model.getTotalPrice()));
+                frame.saveQuoteButton.setEnabled(true);
             }
-
-            //Setting the total price in the total price field
-            model.calculateTotalPrice(Double.parseDouble(frame.taxPercentageField.getText()));
-            frame.totalPriceField.setText(String.valueOf(model.getTotalPrice()));
         }else if(e.getSource() == frame.saveQuoteButton){
             Client client = new Client(frame.firstNameField.getText(),
                     frame.lastNameField.getText(),
