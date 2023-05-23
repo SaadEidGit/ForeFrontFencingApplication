@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Model {
@@ -6,7 +7,8 @@ public class Model {
     private ArrayList<Side> sides;
     private ArrayList<Gate> gates;
     private ExcelFileService excelFileService;
-    private String filePath = "C:\\Users\\saad_\\OneDrive\\Documents\\Client.xlsx";
+    private PDFFileService pdfFileService;
+    private String filePath = "C:\\Users\\saad_\\Desktop\\ForeFrontFencingApplication\\Documents\\Client.xlsx";
 
     public Model(){
         this.totalPrice = 0;
@@ -14,6 +16,7 @@ public class Model {
         this.sides = new ArrayList<>();
         this.gates = new ArrayList<>();
         this.excelFileService = new ExcelFileService();
+        this.pdfFileService = new PDFFileService();
     }
 
     public void addView(FormView v){
@@ -65,7 +68,15 @@ public class Model {
         totalPrice = totalPrice + calculateTax(totalPrice, taxPercentage);
     }
 
-    public void setFilePath(String filePath) {
+    public void setPDFFilePath(String filePath) {
+        pdfFileService.constructFilePath(filePath);
+    }
+
+    public void fillPDFForm(SavePDFEvent event) throws IOException {
+        pdfFileService.fillForm(event);
+    }
+
+    public void setExcelFilePath(String filePath) {
         this.filePath = filePath;
     }
 }

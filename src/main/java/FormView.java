@@ -1,3 +1,3 @@
 public interface FormView {
-    void update(FormEvent e);
+    void update(SavePDFEvent e);
 }

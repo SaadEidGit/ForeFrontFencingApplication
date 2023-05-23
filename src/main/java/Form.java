@@ -389,7 +389,7 @@ public class Form extends JFrame implements FormView{
 
 
     @Override
-    public void update(FormEvent e) {
+    public void update(SavePDFEvent e) {
 
     }
 

@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class CreateQuoteController implements ActionListener {
     public Model model;
@@ -100,6 +101,15 @@ public class CreateQuoteController implements ActionListener {
             /*TODO: save all fields into the pdf.Pass in the client object, the date object, pricePerLinearFoot,
              * and taxPercentage to the pdf method
              */
+            String fileName = JOptionPane.showInputDialog(frame, "Please provide the file name for the PDF file.");
+            model.setPDFFilePath(fileName);
+
+            try {
+                SavePDFEvent event = new SavePDFEvent(model, client, date, pricePerLinearFoot, taxPercentage, dateDay, dateMonth, dateYear);
+                model.fillPDFForm(event);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }else if(e.getSource() == frame.resetButton){
             frame.resetCreateQuoteForm(frame.getTextFieldsFromPanel(frame.mainSubPane));
         }
