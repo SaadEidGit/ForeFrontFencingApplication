@@ -9,14 +9,16 @@ public class Form extends JFrame implements FormView{
     public JScrollPane scrollPane;
     private JPanel contentPanel;
     private JTabbedPane tabbedPane;
-    public JTextField firstNameField, lastNameField, emailField, phoneField, addressArea, priceArea, totalPriceField;
-    //CreateUser
+    //Create Quote Form
+    public JTextField firstNameField, lastNameField, emailField, phoneField, addressArea, priceArea, totalPriceField, taxPercentageField;
+    //Create User form
     public JTextField firstNameCreateUserField, lastNameCreateUserField, emailCreateUserField, phoneCreateUserField, addressCreateUserArea;
     public JButton createNewClientButton, resetButton, resetCreateUserFormButton, saveQuoteButton, quoteButton;
     public JComboBox daysCombo, monthsCombo, yearsCombo;
-    private int combinationGateCount = 0, combinationSideCount = 0;
     private CreateClientController createClientController;
     private CreateQuoteController createQuoteController;
+    public JPanel contentPanelArray[] = new JPanel[20];
+    public int contentPanelArrayCount = 0;
     private String dates[]
             = { "1", "2", "3", "4", "5",
             "6", "7", "8", "9", "10",
@@ -34,7 +36,7 @@ public class Form extends JFrame implements FormView{
     public Form(){
         super("Registration Form");
         setBounds(300, 90, 900, 600);
-        setSize(450,500);
+        setSize(450,550);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(true);
         setLayout(new BorderLayout());
@@ -86,7 +88,7 @@ public class Form extends JFrame implements FormView{
         // Add the list of years to the years array
         getYearList();
         mainSubPane = new JPanel();
-        mainSubPane.setLayout(new GridLayout(7, 2));
+        mainSubPane.setLayout(new GridLayout(8, 2));
 
         JLabel firstNameLabel = new JLabel("First Name:");
         mainSubPane.add(firstNameLabel);
@@ -124,6 +126,12 @@ public class Form extends JFrame implements FormView{
         priceArea.setBorder(BorderFactory.createLineBorder(Color.black));
         mainSubPane.add(priceArea);
 
+        JLabel taxPercentageLabel = new JLabel("Tax Percentage (%):");
+        mainSubPane.add(taxPercentageLabel);
+        taxPercentageField = new JTextField();
+        taxPercentageField.setBorder(BorderFactory.createLineBorder(Color.black));
+        mainSubPane.add(taxPercentageField);
+
         JLabel dateToStartProj = new JLabel("Date to Start Project:");
         mainSubPane.add(dateToStartProj);
         JPanel datePanel = new JPanel();
@@ -140,35 +148,16 @@ public class Form extends JFrame implements FormView{
         addSideButton.setHorizontalAlignment(JButton.CENTER);
         addSideButton.setVerticalAlignment(JButton.CENTER);
         addSideButton.addActionListener(createQuoteController);
-//        addSideButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                addSideCombination();
-//            }
-//        });
 
         addGateButton = new JButton("Add Gate");
         addGateButton.setHorizontalAlignment(JButton.CENTER);
         addGateButton.setVerticalAlignment(JButton.CENTER);
         addGateButton.addActionListener(createQuoteController);
-//        addGateButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                addGate();
-//            }
-//        });
 
         removeLastButton = new JButton("Remove Last");
         removeLastButton.setHorizontalAlignment(JButton.CENTER);
         removeLastButton.setVerticalAlignment(JButton.CENTER);
         removeLastButton.addActionListener(createQuoteController);
-//        removeSideButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                addGate();
-//            }
-//        });
-
 
         contentPanel = new JPanel();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
@@ -195,64 +184,18 @@ public class Form extends JFrame implements FormView{
         quoteButton.setHorizontalAlignment(JButton.CENTER);
         quoteButton.setVerticalAlignment(JButton.CENTER);
         quoteButton.addActionListener(createQuoteController);
-//        quoteButton.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                String firstName = firstNameField.getText();
-//                String lastName = lastNameField.getText();
-//                String email = emailField.getText();
-//                String phone = phoneField.getText();
-//                String address = addressArea.getText();
-//
-//                // Do something with the registration data
-//                System.out.println("First Name: " + firstName);
-//                System.out.println("Last Name: " + lastName);
-//                System.out.println("Email: " + email);
-//                System.out.println("Phone Number: " + phone);
-//                System.out.println("Address: " + address);
-//            }
-//        });
 
         saveQuoteButton = new JButton("Save Quote");
         saveQuoteButton.setHorizontalAlignment(JButton.CENTER);
         saveQuoteButton.setVerticalAlignment(JButton.CENTER);
         saveQuoteButton.addActionListener(createQuoteController);
-//        saveQuoteButton.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                String firstName = firstNameField.getText();
-//                String lastName = lastNameField.getText();
-//                String email = emailField.getText();
-//                String phone = phoneField.getText();
-//                String address = addressArea.getText();
-//
-//                // Do something with the registration data
-//                System.out.println("First Name: " + firstName);
-//                System.out.println("Last Name: " + lastName);
-//                System.out.println("Email: " + email);
-//                System.out.println("Phone Number: " + phone);
-//                System.out.println("Address: " + address);
-//            }
-//        });
+        //TODO: once done testing the saveQuoteButton, uncomment the following line
+        //saveQuoteButton.setEnabled(false);
 
         resetButton = new JButton("Reset Form");
         resetButton.setHorizontalAlignment(JButton.CENTER);
         resetButton.setVerticalAlignment(JButton.CENTER);
         resetButton.addActionListener(createQuoteController);
-//        resetButton.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                String firstName = firstNameField.getText();
-//                String lastName = lastNameField.getText();
-//                String email = emailField.getText();
-//                String phone = phoneField.getText();
-//                String address = addressArea.getText();
-//
-//                // Do something with the registration data
-//                System.out.println("First Name: " + firstName);
-//                System.out.println("Last Name: " + lastName);
-//                System.out.println("Email: " + email);
-//                System.out.println("Phone Number: " + phone);
-//                System.out.println("Address: " + address);
-//            }
-//        });
 
         quoteButtonPanel.add(quoteButton);
         quoteButtonPanel.add(saveQuoteButton);
@@ -343,14 +286,16 @@ public class Form extends JFrame implements FormView{
         combinationPanel.setLayout(new BoxLayout(combinationPanel, BoxLayout.X_AXIS));
         combinationPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
-        JLabel label = new JLabel("Side " + (combinationSideCount + 1) + " Length");
+        JLabel label = new JLabel("Side Length");
         JTextField textArea = new JTextField();
 
         combinationPanel.add(label);
         combinationPanel.add(textArea);
 
+        //Adding the panel to the content panel array
+        contentPanelArray[contentPanelArrayCount] = combinationPanel;
+        contentPanelArrayCount++;
         contentPanel.add(combinationPanel);
-        combinationSideCount++;
 
         validate();
         repaint();
@@ -361,14 +306,16 @@ public class Form extends JFrame implements FormView{
         combinationPanel.setLayout(new BoxLayout(combinationPanel, BoxLayout.X_AXIS));
         combinationPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
-        JLabel label = new JLabel("Gate " + (combinationGateCount + 1) + " Price   ");
+        JLabel label = new JLabel("Gate Price   ");
         JTextField textArea = new JTextField();
 
         combinationPanel.add(label);
         combinationPanel.add(textArea);
 
+        //Adding the panel to the content panel array
+        contentPanelArray[contentPanelArrayCount] = combinationPanel;
+        contentPanelArrayCount++;
         contentPanel.add(combinationPanel);
-        combinationGateCount++;
 
         validate();
         repaint();
@@ -379,9 +326,8 @@ public class Form extends JFrame implements FormView{
 
         if (panelCount > 0) {
             Component lastPanel = contentPanel.getComponent(panelCount - 1);
-            //TODO: check which panel is the last panel, whetether it has gate or side
+            //remove last panel
             contentPanel.remove(lastPanel);
-            combinationSideCount--;
 
             validate();
             repaint();
@@ -391,8 +337,8 @@ public class Form extends JFrame implements FormView{
             System.out.println("No panels to remove. Content panel is empty.");
         }
     }
-    //use getTextFieldsFromPanel and getTextFieldsFromScrollPane
-    public void resetCreateQuoteForm(ArrayList<JTextField> mainPanelTextFields, ArrayList<JTextField> scrollPaneTextFields){
+
+public void resetCreateQuoteForm(ArrayList<JTextField> mainPanelTextFields, ArrayList<JTextField> scrollPaneTextFields){
         //text fields from main pane
         for(JTextField field: mainPanelTextFields){
             field.setText("");

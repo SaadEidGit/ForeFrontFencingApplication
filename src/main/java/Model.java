@@ -20,6 +20,10 @@ public class Model {
         views.add(v);
     }
 
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
     public double calculateSidePrice(double length, double linearFootPrice){
         return length*linearFootPrice;
     }

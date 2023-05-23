@@ -28,4 +28,12 @@ public class Client {
     public String getAddress() {
         return address;
     }
+
+    public String toString() {
+        return "First Name: " + firstName +
+                ", Last Name: " + lastName +
+                ", Email: " + email +
+                ", Phone Number: " + phoneNumber +
+                ", Address: " + address;
+    }
 }
