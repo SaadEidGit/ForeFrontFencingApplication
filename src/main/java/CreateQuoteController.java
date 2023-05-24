@@ -43,7 +43,7 @@ public class CreateQuoteController implements ActionListener {
                                 break;
                             }else if (label.getText().equals("Gate Wall Price")){
                                 JTextField textField = (JTextField) components[1];
-                                model.removeLastSide(new Side(Double.parseDouble(textField.getText())));
+                                model.removeLastGateWall(new GateWall(Double.parseDouble(textField.getText())));
                                 break;
                             }
                         }
