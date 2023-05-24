@@ -6,6 +6,7 @@ public class Model {
     public ArrayList<FormView> views;
     private ArrayList<Side> sides;
     private ArrayList<Gate> gates;
+    private ArrayList<GateWall> gateWalls;
     private ExcelFileService excelFileService;
     private PDFFileService pdfFileService;
     private String filePath = "C:\\Users\\saad_\\Desktop\\ForeFrontFencingApplication\\Documents\\Client.xlsx";
@@ -15,6 +16,7 @@ public class Model {
         this.views = new ArrayList<>();
         this.sides = new ArrayList<>();
         this.gates = new ArrayList<>();
+        this.gateWalls = new ArrayList<>();
         this.excelFileService = new ExcelFileService();
         this.pdfFileService = new PDFFileService();
     }
@@ -42,14 +44,30 @@ public class Model {
     public void addGate(Gate gate){
         gates.add(gate);
     }
+
+    public void addGateWall(GateWall gateWall){
+        gateWalls.add(gateWall);
+    }
+
     public void removeLastSide(Side side){
-        int lastIndex = sides.size() - 1;
-        sides.remove(lastIndex);
+        if (sides.size() > 0){
+            int lastIndex = sides.size() - 1;
+            sides.remove(lastIndex);
+        }
     }
 
     public void removeLastGate(Gate gate){
-        int lastIndex = gates.size() - 1;
-        gates.remove(lastIndex);
+        if (gates.size() > 0){
+            int lastIndex = gates.size() - 1;
+            gates.remove(lastIndex);
+        }
+    }
+
+    public void removeLastGateWall(GateWall gatewall){
+        if (gateWalls.size() > 0){
+            int lastIndex = gateWalls.size() - 1;
+            gateWalls.remove(lastIndex);
+        }
     }
 
     public void setLinearSquareFootPrice(double price){
@@ -63,6 +81,10 @@ public class Model {
 
         for(Gate gate: gates){
             totalPrice += gate.getGatePrice();
+        }
+
+        for(GateWall gateWall: gateWalls){
+            totalPrice += gateWall.getGateWallPrice();
         }
 
         totalPrice = totalPrice + calculateTax(totalPrice, taxPercentage);

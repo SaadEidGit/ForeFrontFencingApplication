@@ -18,6 +18,8 @@ public class CreateQuoteController implements ActionListener {
             frame.addSideCombination();
         }else if(e.getSource() == frame.addGateButton){
             frame.addGate();
+        }else if(e.getSource() == frame.addGateWallButton) {
+            frame.addGateWall();
         }else if(e.getSource() == frame.removeLastButton){
             frame.removeLastPanel();
             frame.contentPanelArray[frame.contentPanelArray.length - 1] = null;
@@ -36,6 +38,10 @@ public class CreateQuoteController implements ActionListener {
                                 model.removeLastGate(new Gate(Double.parseDouble(textField.getText())));
                                 break;
                             }else if (label.getText().equals("Side Length")){
+                                JTextField textField = (JTextField) components[1];
+                                model.removeLastSide(new Side(Double.parseDouble(textField.getText())));
+                                break;
+                            }else if (label.getText().equals("Gate Wall Price")){
                                 JTextField textField = (JTextField) components[1];
                                 model.removeLastSide(new Side(Double.parseDouble(textField.getText())));
                                 break;
@@ -61,6 +67,10 @@ public class CreateQuoteController implements ActionListener {
                             }else if (label.getText().equals("Side Length")){
                                 JTextField textField = (JTextField) components[1];
                                 model.addSide(new Side(Double.parseDouble(textField.getText())));
+                                break;
+                            }else if (label.getText().equals("Gate Wall Length")){
+                                JTextField textField = (JTextField) components[1];
+                                model.addGateWall(new GateWall(Double.parseDouble(textField.getText())));
                                 break;
                             }
                         }
@@ -111,7 +121,7 @@ public class CreateQuoteController implements ActionListener {
                 throw new RuntimeException(ex);
             }
         }else if(e.getSource() == frame.resetButton){
-            frame.resetCreateQuoteForm(frame.getTextFieldsFromPanel(frame.mainSubPane));
+            frame.resetCreateQuoteForm(Form.getTextFieldsFromPanel(frame.mainSubPane));
         }
     }
 }

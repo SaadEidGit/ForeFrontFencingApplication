@@ -5,12 +5,12 @@ import java.util.Calendar;
 
 public class Form extends JFrame implements FormView{
     public JPanel buttonPanel, mainSubPane;
-    public JButton addSideButton, removeLastButton, addGateButton;
+    public JButton addSideButton, removeLastButton, addGateButton, addGateWallButton;
     public JScrollPane scrollPane;
     private JPanel contentPanel;
     private JTabbedPane tabbedPane;
     //Create Quote Form
-    public JTextField firstNameField, lastNameField, emailField, phoneField, addressArea, priceArea, totalPriceField, taxPercentageField;
+    public JTextField firstNameField, lastNameField, emailField, phoneField, addressArea, priceArea, totalPriceField, taxPercentageField, colourField;
     //Create User form
     public JTextField firstNameCreateUserField, lastNameCreateUserField, emailCreateUserField, phoneCreateUserField, addressCreateUserArea;
     public JButton createNewClientButton, resetButton, resetCreateUserFormButton, saveQuoteButton, quoteButton;
@@ -88,51 +88,66 @@ public class Form extends JFrame implements FormView{
         // Add the list of years to the years array
         getYearList();
         mainSubPane = new JPanel();
-        mainSubPane.setLayout(new GridLayout(8, 2));
+        mainSubPane.setLayout(new GridLayout(9, 2));
 
         JLabel firstNameLabel = new JLabel("First Name:");
+        firstNameLabel.setHorizontalAlignment(JLabel.CENTER);
         mainSubPane.add(firstNameLabel);
         firstNameField = new JTextField();
         firstNameField.setBorder(BorderFactory.createLineBorder(Color.black));
         mainSubPane.add(firstNameField);
 
         JLabel lastNameLabel = new JLabel("Last Name:");
+        lastNameLabel.setHorizontalAlignment(JLabel.CENTER);
         mainSubPane.add(lastNameLabel);
         lastNameField = new JTextField();
         lastNameField.setBorder(BorderFactory.createLineBorder(Color.black));
         mainSubPane.add(lastNameField);
 
         JLabel emailLabel = new JLabel("Email:");
+        emailLabel.setHorizontalAlignment(JLabel.CENTER);
         mainSubPane.add(emailLabel);
         emailField = new JTextField();
         emailField.setBorder(BorderFactory.createLineBorder(Color.black));
         mainSubPane.add(emailField);
 
         JLabel phoneLabel = new JLabel("Phone Number:");
+        phoneLabel.setHorizontalAlignment(JLabel.CENTER);
         mainSubPane.add(phoneLabel);
         phoneField = new JTextField();
         phoneField.setBorder(BorderFactory.createLineBorder(Color.black));
         mainSubPane.add(phoneField);
 
         JLabel addressLabel = new JLabel("Address:");
+        addressLabel.setHorizontalAlignment(JLabel.CENTER);
         mainSubPane.add(addressLabel);
         addressArea = new JTextField();
         addressArea.setBorder(BorderFactory.createLineBorder(Color.black));
         mainSubPane.add(addressArea);
 
+        JLabel colourLabel = new JLabel("Fence Colour:");
+        colourLabel.setHorizontalAlignment(JLabel.CENTER);
+        mainSubPane.add(colourLabel);
+        colourField = new JTextField();
+        colourField.setBorder(BorderFactory.createLineBorder(Color.black));
+        mainSubPane.add(colourField);
+
         JLabel priceLabel = new JLabel("Price Per Linear Foot:");
+        priceLabel.setHorizontalAlignment(JLabel.CENTER);
         mainSubPane.add(priceLabel);
         priceArea = new JTextField();
         priceArea.setBorder(BorderFactory.createLineBorder(Color.black));
         mainSubPane.add(priceArea);
 
         JLabel taxPercentageLabel = new JLabel("Tax Percentage (%):");
+        taxPercentageLabel.setHorizontalAlignment(JLabel.CENTER);
         mainSubPane.add(taxPercentageLabel);
         taxPercentageField = new JTextField();
         taxPercentageField.setBorder(BorderFactory.createLineBorder(Color.black));
         mainSubPane.add(taxPercentageField);
 
         JLabel dateToStartProj = new JLabel("Date to Start Project:");
+        dateToStartProj.setHorizontalAlignment(JLabel.CENTER);
         mainSubPane.add(dateToStartProj);
         JPanel datePanel = new JPanel();
         datePanel.setLayout(new BoxLayout(datePanel, BoxLayout.X_AXIS));
@@ -154,6 +169,11 @@ public class Form extends JFrame implements FormView{
         addGateButton.setVerticalAlignment(JButton.CENTER);
         addGateButton.addActionListener(createQuoteController);
 
+        addGateWallButton = new JButton("Add Gate Wall");
+        addGateWallButton.setHorizontalAlignment(JButton.CENTER);
+        addGateWallButton.setVerticalAlignment(JButton.CENTER);
+        addGateWallButton.addActionListener(createQuoteController);
+
         removeLastButton = new JButton("Remove Last");
         removeLastButton.setHorizontalAlignment(JButton.CENTER);
         removeLastButton.setVerticalAlignment(JButton.CENTER);
@@ -171,6 +191,7 @@ public class Form extends JFrame implements FormView{
         JPanel totalPricePanel = new JPanel();
         totalPricePanel.setLayout(new GridLayout(1,2));
         JLabel totalPriceLabel = new JLabel("Total Price With Tax:");
+        totalPriceLabel.setHorizontalAlignment(JLabel.CENTER);
         totalPricePanel.setSize(new Dimension(450, 50));
         totalPriceField = new JTextField();
         totalPriceField.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -203,6 +224,7 @@ public class Form extends JFrame implements FormView{
         quoteButtonPanel.add(resetButton);
         buttonPanel.add(addSideButton);
         buttonPanel.add(addGateButton);
+        buttonPanel.add(addGateWallButton);
         buttonPanel.add(removeLastButton);
         mainPanel.add(mainSubPane);
         mainPanel.add(buttonPanel);
@@ -308,6 +330,26 @@ public class Form extends JFrame implements FormView{
         combinationPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
         JLabel label = new JLabel("Gate Price   ");
+        JTextField textArea = new JTextField();
+
+        combinationPanel.add(label);
+        combinationPanel.add(textArea);
+
+        //Adding the panel to the content panel array
+        contentPanelArray[contentPanelArrayCount] = combinationPanel;
+        contentPanelArrayCount++;
+        contentPanel.add(combinationPanel);
+
+        validate();
+        repaint();
+    }
+
+    public void addGateWall() {
+        JPanel combinationPanel = new JPanel();
+        combinationPanel.setLayout(new BoxLayout(combinationPanel, BoxLayout.X_AXIS));
+        combinationPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+
+        JLabel label = new JLabel("Gate Wall Price");
         JTextField textArea = new JTextField();
 
         combinationPanel.add(label);
