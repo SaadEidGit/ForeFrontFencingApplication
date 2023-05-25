@@ -22,36 +22,41 @@ public class CreateQuoteController implements ActionListener {
             frame.addGateWall();
         }else if(e.getSource() == frame.removeLastButton){
             frame.removeLastPanel();
-            frame.contentPanelArray[frame.contentPanelArray.length - 1] = null;
-            frame.contentPanelArrayCount--;
+//            frame.contentPanelArray[frame.contentPanelArray.length - 1] = null;
+//            frame.contentPanelArrayCount--;
 
-            for (int i = 0; i < frame.contentPanelArray.length - 1; i++){
-                if (frame.contentPanelArray[i] != null && frame.contentPanelArray[i].getClass().equals(JPanel.class)){
-                    JPanel panel = frame.contentPanelArray[i];
-                    Component[] components = panel.getComponents();
-                    for (Component comp : components) {
-                        if(comp.getClass().equals(JLabel.class)){
-                            JLabel label = (JLabel) components[0];
+            if (frame.contentPanelArray[frame.contentPanelArrayCount-1] != null && frame.contentPanelArray[frame.contentPanelArrayCount-1].getClass().equals(JPanel.class)){
+                JPanel panel = frame.contentPanelArray[frame.contentPanelArrayCount-1];
+                Component[] components = panel.getComponents();
+                for (Component comp : components) {
+                    if(comp.getClass().equals(JLabel.class)){
+                        JLabel label = (JLabel) components[0];
 
-                            if (label.getText().equals("Gate Price   ")){
-                                JTextField textField = (JTextField) components[1];
-                                model.removeLastGate(new Gate(Double.parseDouble(textField.getText())));
-                                break;
-                            }else if (label.getText().equals("Side Length")){
-                                JTextField textField = (JTextField) components[1];
-                                model.removeLastSide(new Side(Double.parseDouble(textField.getText())));
-                                break;
-                            }else if (label.getText().equals("Gate Wall Price")){
-                                JTextField textField = (JTextField) components[1];
-                                model.removeLastGateWall(new GateWall(Double.parseDouble(textField.getText())));
-                                break;
-                            }
+                        if (label.getText().equals("Gate Price   ")){
+                            JTextField textField = (JTextField) components[1];
+                            model.removeLastGate(new Gate(Double.parseDouble(textField.getText())));
+                            break;
+                        }else if (label.getText().equals("Side Length")){
+                            JTextField textField = (JTextField) components[1];
+                            model.removeLastSide(new Side(Double.parseDouble(textField.getText())));
+                            break;
+                        }else if (label.getText().equals("Gate Wall Price")){
+                            JTextField textField = (JTextField) components[1];
+                            model.removeLastGateWall(new GateWall(Double.parseDouble(textField.getText())));
+                            break;
                         }
                     }
                 }
             }
+
+            frame.contentPanelArray[frame.contentPanelArrayCount - 1] = null;
+            frame.contentPanelArrayCount--;
+
         }else if(e.getSource() == frame.quoteButton){
-            //TODO: add the correct panel to their respective lists in the model, either gates, or sides.
+            // Reset the sides, gates and gate walls to recalculate new quote for the added and removed panels
+            model.resetSides();
+            model.resetGates();
+            model.resetGateWalls();
             for (int i = 0; i < frame.contentPanelArray.length - 1; i++){
                 if (frame.contentPanelArray[i] != null && frame.contentPanelArray[i].getClass().equals(JPanel.class)){
                     JPanel panel = frame.contentPanelArray[i];
@@ -68,7 +73,7 @@ public class CreateQuoteController implements ActionListener {
                                 JTextField textField = (JTextField) components[1];
                                 model.addSide(new Side(Double.parseDouble(textField.getText())));
                                 break;
-                            }else if (label.getText().equals("Gate Wall Length")){
+                            }else if (label.getText().equals("Gate Wall Price")){
                                 JTextField textField = (JTextField) components[1];
                                 model.addGateWall(new GateWall(Double.parseDouble(textField.getText())));
                                 break;
@@ -77,7 +82,6 @@ public class CreateQuoteController implements ActionListener {
                     }
                 }
             }
-
             //Error handling if the price and tax percentage fields are empty
             if (frame.priceArea.getText().isEmpty() || frame.taxPercentageField.getText().isEmpty()){
                 JOptionPane.showMessageDialog(frame, "Please fill in all fields before pressing Generating Quote button.");

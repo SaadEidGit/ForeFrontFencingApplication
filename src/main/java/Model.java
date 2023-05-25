@@ -52,21 +52,27 @@ public class Model {
     public void removeLastSide(Side side){
         if (sides.size() > 0){
             int lastIndex = sides.size() - 1;
-            sides.remove(lastIndex);
+            if (lastIndex >= 0){
+                sides.remove(lastIndex);
+            }
         }
     }
 
     public void removeLastGate(Gate gate){
         if (gates.size() > 0){
             int lastIndex = gates.size() - 1;
-            gates.remove(lastIndex);
+            if (lastIndex >= 0){
+                gates.remove(lastIndex);
+            }
         }
     }
 
     public void removeLastGateWall(GateWall gatewall){
         if (gateWalls.size() > 0){
             int lastIndex = gateWalls.size() - 1;
-            gateWalls.remove(lastIndex);
+            if (lastIndex >= 0){
+                gateWalls.remove(lastIndex);
+            }
         }
     }
 
@@ -75,6 +81,8 @@ public class Model {
     }
 
     public void calculateTotalPrice(double taxPercentage){
+        // Reset totalPrice each time
+        this.totalPrice = 0;
         for(Side side: sides){
             totalPrice += side.getSideLength() * this.linearSquareFootPrice;
         }
@@ -100,5 +108,17 @@ public class Model {
 
     public void setExcelFilePath(String filePath) {
         this.filePath = filePath;
+    }
+
+    public void resetSides() {
+        sides.clear();
+    }
+
+    public void resetGates() {
+        gates.clear();
+    }
+
+    public void resetGateWalls() {
+        gateWalls.clear();
     }
 }
