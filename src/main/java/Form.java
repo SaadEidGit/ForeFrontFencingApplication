@@ -13,10 +13,13 @@ public class Form extends JFrame implements FormView{
     public JTextField firstNameField, lastNameField, emailField, phoneField, addressArea, priceArea, totalPriceField, taxPercentageField, colourField;
     //Create User form
     public JTextField firstNameCreateUserField, lastNameCreateUserField, emailCreateUserField, phoneCreateUserField, addressCreateUserArea;
-    public JButton createNewClientButton, resetButton, resetCreateUserFormButton, saveQuoteButton, quoteButton;
+    //Setup file path form
+    public JTextField currentExcelFilePathField, currentPDFFilePathField, currentFilledPDFFilePathField, newExcelFilePathField, newPDFPathField, newFilledPDFPathField;
+    public JButton createNewClientButton, resetButton, resetCreateUserFormButton, saveQuoteButton, quoteButton, saveFilePath;
     public JComboBox daysCombo, monthsCombo, yearsCombo;
     private CreateClientController createClientController;
     private CreateQuoteController createQuoteController;
+    private SetUpController setUpController;
     public JPanel contentPanelArray[] = new JPanel[20];
     public int contentPanelArrayCount = 0;
     private String dates[]
@@ -36,7 +39,7 @@ public class Form extends JFrame implements FormView{
     public Form(){
         super("Registration Form");
         setBounds(300, 90, 900, 600);
-        setSize(450,550);
+        setSize(500,550);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(true);
         setLayout(new BorderLayout());
@@ -46,11 +49,12 @@ public class Form extends JFrame implements FormView{
 
         createClientController = new CreateClientController(model, this);
         createQuoteController = new CreateQuoteController(model, this);
+        setUpController = new SetUpController(model, this);
 
         tabbedPane = new JTabbedPane();
         tabbedPane.add("Create New User", CreateUser());
         tabbedPane.add("Create Quote", CreateQuote());
-        //tabbedPane.add("Setup File Path", createSetupForm());
+        tabbedPane.add("File Path Setup", createSetupForm());
 
         this.add(tabbedPane);
         validate();
@@ -58,29 +62,66 @@ public class Form extends JFrame implements FormView{
     }
 
     private JPanel createSetupForm() {
+        //TODO: add controller
+        JPanel gridPanel = new JPanel();
+        gridPanel.setLayout(new GridLayout(8, 2));
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+
+        JLabel FilePathLabel = new JLabel("Current Excel File Path:");
+        gridPanel.add(FilePathLabel);
+        currentExcelFilePathField = new JTextField();
+        currentExcelFilePathField.setBorder(BorderFactory.createLineBorder(Color.black));
+        currentExcelFilePathField.setEnabled(false);
+        gridPanel.add(currentExcelFilePathField);
+
+        FilePathLabel = new JLabel("Input New Excel File Path:");
+        gridPanel.add(FilePathLabel);
+        newExcelFilePathField = new JTextField();
+        newExcelFilePathField.setBorder(BorderFactory.createLineBorder(Color.black));
+        gridPanel.add(newExcelFilePathField);
+
+        FilePathLabel = new JLabel("Current Template PDF File Path:");
+        gridPanel.add(FilePathLabel);
+        currentPDFFilePathField = new JTextField();
+        currentPDFFilePathField.setBorder(BorderFactory.createLineBorder(Color.black));
+        currentPDFFilePathField.setEnabled(false);
+        gridPanel.add(currentPDFFilePathField);
+
+        JLabel newFilePathLabel = new JLabel("Input New Template PDF File Path:");
+        gridPanel.add(newFilePathLabel);
+        newPDFPathField = new JTextField();
+        newPDFPathField.setBorder(BorderFactory.createLineBorder(Color.black));
+        gridPanel.add(newPDFPathField);
+
+        JLabel currentFilePathLabel = new JLabel("Current Filled PDF Folder File Path:");
+        gridPanel.add(currentFilePathLabel);
+        currentFilledPDFFilePathField = new JTextField();
+        currentFilledPDFFilePathField.setBorder(BorderFactory.createLineBorder(Color.black));
+        currentFilledPDFFilePathField.setEnabled(false);
+        gridPanel.add(currentFilledPDFFilePathField);
+
+        JLabel newFilledPDFFilePathLabel = new JLabel("Input New Filled PDF Folder File Path:");
+        gridPanel.add(newFilledPDFFilePathLabel);
+        newFilledPDFPathField = new JTextField();
+        newFilledPDFPathField.setBorder(BorderFactory.createLineBorder(Color.black));
+        gridPanel.add(newFilledPDFPathField);
+
+        saveFilePath = new JButton("Save New File Paths");
+        saveFilePath.setHorizontalAlignment(JButton.CENTER);
+        saveFilePath.setVerticalAlignment(JButton.CENTER);
+        saveFilePath.addActionListener(setUpController);
+        buttonPanel.add(saveFilePath);
+
         JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayout(8, 2));
-
-        JLabel currentFilePathLabel = new JLabel("Current File Path:");
-        mainPanel.add(currentFilePathLabel);
-        JTextField currentFilePathField = new JTextField();
-        currentFilePathField.setBorder(BorderFactory.createLineBorder(Color.black));
-        currentFilePathField.setEnabled(false);
-        mainPanel.add(currentFilePathField);
-
-        JLabel newFilePathLabel = new JLabel("Input New File Path:");
-        mainPanel.add(newFilePathLabel);
-        JTextField newFilePathField = new JTextField();
-        newFilePathField.setBorder(BorderFactory.createLineBorder(Color.black));
-        mainPanel.add(newFilePathField);
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.add(gridPanel);
+        mainPanel.add(buttonPanel);
 
         return mainPanel;
     }
 
-    /**
-     * Not fully implemented
-     * @return
-     */
+
     private JScrollPane CreateQuote() {
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));

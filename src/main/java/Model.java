@@ -106,8 +106,16 @@ public class Model {
         pdfFileService.fillForm(event);
     }
 
-    public void setExcelFilePath(String filePath) {
-        this.filePath = filePath;
+    public void setExcelFilePath(String filePath) throws IOException {
+        FilePath.setExcelFilePath(filePath);
+    }
+
+//    public void setPDFFilePath(String filePath) throws IOException {
+//        FilePath.setPDFFilePath(filePath);
+//    }
+
+    public void setFilledPDFFilePath(String filePath) throws IOException {
+        FilePath.setFilledPDFFilePath(filePath);
     }
 
     public void resetSides() {
