@@ -1,5 +1,7 @@
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -14,7 +16,7 @@ public class Form extends JFrame implements FormView{
     //Create User form
     public JTextField firstNameCreateUserField, lastNameCreateUserField, emailCreateUserField, phoneCreateUserField, addressCreateUserArea;
     //Setup file path form
-    public JTextField currentExcelFilePathField, currentPDFFilePathField, currentFilledPDFFilePathField, newExcelFilePathField, newPDFPathField, newFilledPDFPathField;
+    public JTextArea currentExcelFilePathField, currentPDFFilePathField, currentFilledPDFFilePathField, newExcelFilePathField, newPDFPathField, newFilledPDFPathField;
     public JButton createNewClientButton, resetButton, resetCreateUserFormButton, saveQuoteButton, quoteButton, saveFilePath;
     public JComboBox daysCombo, monthsCombo, yearsCombo;
     private CreateClientController createClientController;
@@ -36,7 +38,7 @@ public class Form extends JFrame implements FormView{
             "Sup", "Oct", "Nov", "Dec" };
     private String years[] = new String[5];
 
-    public Form(){
+    public Form() throws IOException, UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         super("Registration Form");
         setBounds(300, 90, 900, 600);
         setSize(500,550);
@@ -55,13 +57,15 @@ public class Form extends JFrame implements FormView{
         tabbedPane.add("Create New User", CreateUser());
         tabbedPane.add("Create Quote", CreateQuote());
         tabbedPane.add("File Path Setup", createSetupForm());
-
         this.add(tabbedPane);
+
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+
         validate();
         setVisible(true);
     }
 
-    private JPanel createSetupForm() {
+    private JPanel createSetupForm() throws IOException {
         //TODO: add controller
         JPanel gridPanel = new JPanel();
         gridPanel.setLayout(new GridLayout(8, 2));
@@ -70,41 +74,56 @@ public class Form extends JFrame implements FormView{
 
         JLabel FilePathLabel = new JLabel("Current Excel File Path:");
         gridPanel.add(FilePathLabel);
-        currentExcelFilePathField = new JTextField();
+        currentExcelFilePathField = new JTextArea();
+        currentExcelFilePathField.setText(FilePath.getExcelFilePath());
         currentExcelFilePathField.setBorder(BorderFactory.createLineBorder(Color.black));
         currentExcelFilePathField.setEnabled(false);
+        currentExcelFilePathField.setLineWrap(true);
+        currentExcelFilePathField.setWrapStyleWord(true);
         gridPanel.add(currentExcelFilePathField);
 
         FilePathLabel = new JLabel("Input New Excel File Path:");
         gridPanel.add(FilePathLabel);
-        newExcelFilePathField = new JTextField();
+        newExcelFilePathField = new JTextArea();
         newExcelFilePathField.setBorder(BorderFactory.createLineBorder(Color.black));
+        newExcelFilePathField.setLineWrap(true);
+        newExcelFilePathField.setWrapStyleWord(true);
         gridPanel.add(newExcelFilePathField);
 
         FilePathLabel = new JLabel("Current Template PDF File Path:");
         gridPanel.add(FilePathLabel);
-        currentPDFFilePathField = new JTextField();
+        currentPDFFilePathField = new JTextArea();
+        currentPDFFilePathField.setText(FilePath.getPDFFilePath());
         currentPDFFilePathField.setBorder(BorderFactory.createLineBorder(Color.black));
         currentPDFFilePathField.setEnabled(false);
+        currentPDFFilePathField.setLineWrap(true);
+        currentPDFFilePathField.setWrapStyleWord(true);
         gridPanel.add(currentPDFFilePathField);
 
         JLabel newFilePathLabel = new JLabel("Input New Template PDF File Path:");
         gridPanel.add(newFilePathLabel);
-        newPDFPathField = new JTextField();
+        newPDFPathField = new JTextArea();
         newPDFPathField.setBorder(BorderFactory.createLineBorder(Color.black));
+        newPDFPathField.setLineWrap(true);
+        newPDFPathField.setWrapStyleWord(true);
         gridPanel.add(newPDFPathField);
 
         JLabel currentFilePathLabel = new JLabel("Current Filled PDF Folder File Path:");
         gridPanel.add(currentFilePathLabel);
-        currentFilledPDFFilePathField = new JTextField();
+        currentFilledPDFFilePathField = new JTextArea();
+        currentFilledPDFFilePathField.setText(FilePath.getFilledPDFFormFilePath());
         currentFilledPDFFilePathField.setBorder(BorderFactory.createLineBorder(Color.black));
         currentFilledPDFFilePathField.setEnabled(false);
+        currentFilledPDFFilePathField.setLineWrap(true);
+        currentFilledPDFFilePathField.setWrapStyleWord(true);
         gridPanel.add(currentFilledPDFFilePathField);
 
         JLabel newFilledPDFFilePathLabel = new JLabel("Input New Filled PDF Folder File Path:");
         gridPanel.add(newFilledPDFFilePathLabel);
-        newFilledPDFPathField = new JTextField();
+        newFilledPDFPathField = new JTextArea();
         newFilledPDFPathField.setBorder(BorderFactory.createLineBorder(Color.black));
+        newFilledPDFPathField.setLineWrap(true);
+        newFilledPDFPathField.setWrapStyleWord(true);
         gridPanel.add(newFilledPDFPathField);
 
         saveFilePath = new JButton("Save New File Paths");
@@ -476,7 +495,7 @@ public class Form extends JFrame implements FormView{
 
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         new Form();
     }
 

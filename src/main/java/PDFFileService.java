@@ -9,9 +9,27 @@ import java.util.List;
 
 public class PDFFileService
 {
-    private static String formTemplate = "C:\\Users\\saad_\\Desktop\\ForeFrontFencingApplication\\Documents\\FillablePDF.pdf";
-    private static String filledForm = "C:\\Users\\saad_\\Desktop\\ForeFrontFencingApplication\\Documents\\";
+    //private static String formTemplate = "C:\\Users\\saad_\\Desktop\\ForeFrontFencingApplication\\Documents\\FillablePDF.pdf";
+    private static String formTemplate;
 
+    static {
+        try {
+            formTemplate = FilePath.getPDFFilePath();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //private static String filledForm = "C:\\Users\\saad_\\Desktop\\ForeFrontFencingApplication\\Documents\\";
+
+    private static String filledForm;
+    static {
+        try {
+            filledForm = FilePath.getFilledPDFFormFilePath();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public void constructFilePath(String formName) {
         this.filledForm += formName + ".pdf";
     }
@@ -37,8 +55,7 @@ public class PDFFileService
         pdfDocument.close();
     }
 
-    public static void main(String[] args) throws IOException
-    {
+    public static void main(String[] args) throws IOException {
         // load the document
         PDDocument pdfDocument = PDDocument.load(new File(formTemplate));
         // get the document catalog

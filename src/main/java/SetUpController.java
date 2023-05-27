@@ -15,9 +15,16 @@ public class SetUpController implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == frame.saveFilePath) {
             try {
-                model.setExcelFilePath(frame.newExcelFilePathField.getText());
-                //model.setPDFFilePath(frame.newPDFFilePathField.getText());
-                model.setFilledPDFFilePath(frame.newExcelFilePathField.getText());
+                if (frame.newExcelFilePathField.getText() != null) {
+                    model.setExcelFilePath(frame.newExcelFilePathField.getText());
+                }
+//                if (frame.newPDFFilePathField.getText()!= null) {
+//                    model.setPDFFilePath(frame.newPDFFilePathField.getText());
+//                }
+                if(frame.newExcelFilePathField.getText() != null) {
+                    model.setFilledPDFFilePath(frame.newExcelFilePathField.getText());
+                }
+
                 JOptionPane.showMessageDialog(frame, "The new file paths have been set successfully!");
             } catch (Exception e1) {
                 JOptionPane.showMessageDialog(frame, "An error has occurred while setting the new file paths!");

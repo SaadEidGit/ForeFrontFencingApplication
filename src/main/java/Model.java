@@ -98,8 +98,12 @@ public class Model {
         totalPrice = totalPrice + calculateTax(totalPrice, taxPercentage);
     }
 
-    public void setPDFFilePath(String filePath) {
-        pdfFileService.constructFilePath(filePath);
+    /**
+     * takes the name of the new file and adds it to the file path for the save pdf
+     * @param fileName
+     */
+    public void constuctPDFFilePath(String fileName) {
+        pdfFileService.constructFilePath(fileName);
     }
 
     public void fillPDFForm(SavePDFEvent event) throws IOException {

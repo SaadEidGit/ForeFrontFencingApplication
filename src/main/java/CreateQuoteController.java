@@ -116,7 +116,7 @@ public class CreateQuoteController implements ActionListener {
              * and taxPercentage to the pdf method
              */
             String fileName = JOptionPane.showInputDialog(frame, "Please provide the file name for the PDF file.");
-            model.setPDFFilePath(fileName);
+            model.constuctPDFFilePath(fileName);
 
             try {
                 SavePDFEvent event = new SavePDFEvent(model, client, date, pricePerLinearFoot, taxPercentage, dateDay, dateMonth, dateYear);
