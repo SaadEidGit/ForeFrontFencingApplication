@@ -114,9 +114,9 @@ public class Model {
         FilePath.setExcelFilePath(filePath);
     }
 
-//    public void setPDFFilePath(String filePath) throws IOException {
-//        FilePath.setPDFFilePath(filePath);
-//    }
+    public void setPDFFilePath(String filePath) throws IOException {
+        FilePath.setPDFFilePath(filePath);
+    }
 
     public void setFilledPDFFilePath(String filePath) throws IOException {
         FilePath.setFilledPDFFilePath(filePath);

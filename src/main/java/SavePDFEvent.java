@@ -6,14 +6,14 @@ public class SavePDFEvent extends EventObject {
     private Date date;
     private double pricePerLinearFoot, taxPercentage;
     private int dateDay, dateYear;
-    private String dateMonth;
+    private String dateMonth, fenceColour;
     /**
      * Constructs a prototypical Event.
      *
      * @param model the object on which the Event initially occurred
      * @throws IllegalArgumentException if source is null
      */
-    public SavePDFEvent(Model model, Client client, Date date, double pricePerLinearFoot, double taxPercentage,int dateDay, String dateMonth,int dateYear) {
+    public SavePDFEvent(Model model, Client client, Date date, double pricePerLinearFoot, double taxPercentage,int dateDay, String dateMonth,int dateYear, String fenceColour) {
         super(model);
         this.client = client;
         this.date = date;
@@ -22,6 +22,7 @@ public class SavePDFEvent extends EventObject {
         this.dateDay = dateDay;
         this.dateMonth = dateMonth;
         this.dateYear = dateYear;
+        this.fenceColour = fenceColour;
     }
 
     public Client getClient() {

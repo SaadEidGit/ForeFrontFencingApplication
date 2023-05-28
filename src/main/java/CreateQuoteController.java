@@ -22,8 +22,6 @@ public class CreateQuoteController implements ActionListener {
             frame.addGateWall();
         }else if(e.getSource() == frame.removeLastButton){
             frame.removeLastPanel();
-//            frame.contentPanelArray[frame.contentPanelArray.length - 1] = null;
-//            frame.contentPanelArrayCount--;
 
             if (frame.contentPanelArray[frame.contentPanelArrayCount-1] != null && frame.contentPanelArray[frame.contentPanelArrayCount-1].getClass().equals(JPanel.class)){
                 JPanel panel = frame.contentPanelArray[frame.contentPanelArrayCount-1];
@@ -112,6 +110,8 @@ public class CreateQuoteController implements ActionListener {
             System.out.println("dateYear: " + dateYear);
             Date date = new Date(dateYear, dateMonth, dateDay);
 
+            String fenceColour =  frame.colourField.getText();
+
             /*TODO: save all fields into the pdf.Pass in the client object, the date object, pricePerLinearFoot,
              * and taxPercentage to the pdf method
              */
@@ -119,7 +119,7 @@ public class CreateQuoteController implements ActionListener {
             model.constuctPDFFilePath(fileName);
 
             try {
-                SavePDFEvent event = new SavePDFEvent(model, client, date, pricePerLinearFoot, taxPercentage, dateDay, dateMonth, dateYear);
+                SavePDFEvent event = new SavePDFEvent(model, client, date, pricePerLinearFoot, taxPercentage, dateDay, dateMonth, dateYear, fenceColour);
                 model.fillPDFForm(event);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);

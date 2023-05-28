@@ -87,6 +87,12 @@ public class FilePath {
     public static void setFilledPDFFilePath(String message) throws IOException {
         // Creating an instance of file
         Path path = Paths.get("C:\\Users\\saad_\\Desktop\\ForeFrontFencingApplication\\Documents\\FilledPDFFormFilePath.txt");
+
+        // Adding backslash at the end of the path if forgotten by user
+        if (!message.endsWith("\\")){
+            message = message + "\\";
+        }
+
         // Converting string to byte array
         // using getBytes() method
         byte[] arr = message.getBytes();
