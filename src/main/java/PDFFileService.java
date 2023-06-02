@@ -11,6 +11,7 @@ import java.util.List;
 
 public class PDFFileService
 {
+    private String formName;
     //private static String formTemplate = "C:\\Users\\saad_\\Desktop\\ForeFrontFencingApplication\\Documents\\FillablePDF.pdf";
     private static String formTemplate;
 
@@ -24,6 +25,7 @@ public class PDFFileService
 
     //private static String filledForm = "C:\\Users\\saad_\\Desktop\\ForeFrontFencingApplication\\Documents\\";
 
+
     private static String filledForm;
     static {
         try {
@@ -33,8 +35,18 @@ public class PDFFileService
         }
     }
     public void constructFilePath(String formName) {
+        this.formName = formName;
         this.filledForm += formName + ".pdf";
     }
+
+    public void deconstructFilePath(String formName) {
+        //remove formName from this.filledFrom
+        this.filledForm = this.filledForm.replace(formName + ".pdf", "");
+
+    }
+//    public String constructFilePath(String formName){
+//        return this.filledForm + formName;
+//    }
 
     public void fillForm(SavePDFEvent event) throws IOException{
         PDDocument pdfDocument = PDDocument.load(new File(formTemplate));
@@ -62,6 +74,7 @@ public class PDFFileService
                 for (Side side : sides) {
                     acroForm.getField("side_" + i).setValue("Side " + i);
                     acroForm.getField("side_" + i + "_price").setValue(String.valueOf(side.getSideLength() * event.getModel().linearSquareFootPrice));
+                    i++;
                 }
             }
 
@@ -72,6 +85,7 @@ public class PDFFileService
                 for (Gate gate : gates) {
                     acroForm.getField("gate_" + i).setValue("Gate " + i);
                     acroForm.getField("gate_" + i + "_price").setValue(String.valueOf(gate.getGatePrice()));
+                    i++;
                 }
             }
 
@@ -80,8 +94,9 @@ public class PDFFileService
                 List<GateWall> gateWalls = event.getModel().getGateWalls();
                 int i = 1;
                 for (GateWall gateWall : gateWalls) {
-                    acroForm.getField("gate_wall").setValue("GateWall ");
-                    acroForm.getField("gate_wall").setValue(String.valueOf(gateWall.getGateWallPrice()));
+                    acroForm.getField("gate_wall").setValue("GateWall");
+                    acroForm.getField("gatewall_price").setValue(String.valueOf(gateWall.getGateWallPrice()));
+                    i++;
                 }
             }
 
@@ -89,11 +104,12 @@ public class PDFFileService
             acroForm.getField("hst").setValue(String.valueOf(event.getModel().calculateTax(event.getModel().totalPrice, event.getTaxPercentage())));
             acroForm.getField("total").setValue(String.valueOf(event.getModel().totalPrice));
             acroForm.getField("linear_foot_price").setValue(String.valueOf(event.getPricePerLinearFoot()));
-            acroForm.getField("document_name").setValue(this.filledForm);
+            acroForm.getField("document_name").setValue(this.formName);
 
             //not done on this version of the pdf
             //acroForm.getField("commence_date").setValue(event.getDate().toString());
-            //acroForm.getField("contract_number").setValue(String.valueOf(event.getContractNumber()));
+            //acroForm.getField("contract_number_1").setValue(String.valueOf(event.getContractNumber()));
+            //acroForm.getField("contract_number_2").setValue(String.valueOf(event.getContractNumber()));
             acroForm.getField("cost_for_proj_hst").setValue(String.valueOf(event.getModel().totalPrice));
 
             double payment1 = Math.floor(event.getModel().totalPrice * 0.2);
@@ -107,6 +123,7 @@ public class PDFFileService
         // Save and close the filled out form.
         pdfDocument.save(filledForm);
         pdfDocument.close();
+        deconstructFilePath(this.formName);
     }
 
 //    public static void main(String[] args) throws IOException {
