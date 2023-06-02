@@ -7,15 +7,8 @@ public class Date {
         this.year = year;
     }
 
-    public int getDay() {
-        return day;
-    }
 
-    public String getMonth() {
-        return month;
-    }
-
-    public int getYear() {
-        return year;
+    public String toString(){
+        return month + day + ", " + year;
     }
 }

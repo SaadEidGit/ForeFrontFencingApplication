@@ -12,7 +12,7 @@ public class Form extends JFrame implements FormView{
     private JPanel contentPanel;
     private JTabbedPane tabbedPane;
     //Create Quote Form
-    public JTextField firstNameField, lastNameField, emailField, phoneField, addressArea, priceArea, totalPriceField, taxPercentageField, colourField;
+    public JTextField firstNameField, lastNameField, emailField, phoneField, addressArea, priceArea, totalPriceField, taxPercentageField, colourField, contractNumberField;
     //Create User form
     public JTextField firstNameCreateUserField, lastNameCreateUserField, emailCreateUserField, phoneCreateUserField, addressCreateUserArea;
     //Setup file path form
@@ -148,7 +148,7 @@ public class Form extends JFrame implements FormView{
         // Add the list of years to the years array
         getYearList();
         mainSubPane = new JPanel();
-        mainSubPane.setLayout(new GridLayout(9, 2));
+        mainSubPane.setLayout(new GridLayout(10, 2));
 
         JLabel firstNameLabel = new JLabel("First Name:");
         firstNameLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -205,6 +205,13 @@ public class Form extends JFrame implements FormView{
         taxPercentageField = new JTextField();
         taxPercentageField.setBorder(BorderFactory.createLineBorder(Color.black));
         mainSubPane.add(taxPercentageField);
+
+        JLabel contractNumberLabel = new JLabel("Contract Number:");
+        contractNumberLabel.setHorizontalAlignment(JLabel.CENTER);
+        mainSubPane.add(contractNumberLabel);
+        contractNumberField = new JTextField();
+        contractNumberField.setBorder(BorderFactory.createLineBorder(Color.black));
+        mainSubPane.add(contractNumberField);
 
         JLabel dateToStartProj = new JLabel("Date to Start Project:");
         dateToStartProj.setHorizontalAlignment(JLabel.CENTER);

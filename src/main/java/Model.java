@@ -21,6 +21,17 @@ public class Model {
         this.pdfFileService = new PDFFileService();
     }
 
+    public ArrayList<Side> getSides() {
+        return sides;
+    }
+
+    public ArrayList<Gate> getGates() {
+        return gates;
+    }
+
+    public ArrayList<GateWall> getGateWalls() {
+        return gateWalls;
+    }
     public void addView(FormView v){
         views.add(v);
     }
@@ -96,6 +107,26 @@ public class Model {
         }
 
         totalPrice = totalPrice + calculateTax(totalPrice, taxPercentage);
+    }
+
+    /**
+     * Does not include taxes
+     */
+    public int calculateSubTotalPrice(){
+        int subTotalPrice = 0;
+        for(Side side: sides){
+            subTotalPrice += side.getSideLength() * this.linearSquareFootPrice;
+        }
+
+        for(Gate gate: gates){
+            subTotalPrice += gate.getGatePrice();
+        }
+
+        for(GateWall gateWall: gateWalls){
+            subTotalPrice += gateWall.getGateWallPrice();
+        }
+
+        return subTotalPrice;
     }
 
     /**

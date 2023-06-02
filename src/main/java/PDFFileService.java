@@ -5,6 +5,8 @@ import org.apache.pdfbox.pdmodel.interactive.form.PDField;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class PDFFileService
@@ -38,71 +40,69 @@ public class PDFFileService
         PDDocument pdfDocument = PDDocument.load(new File(formTemplate));
         PDAcroForm acroForm = pdfDocument.getDocumentCatalog().getAcroForm();
 
+        // Get today's date
+        LocalDate today = LocalDate.now();
+        // Define the desired date format
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        // Format the date using the formatter
+        String formattedDate = today.format(formatter);
+
         // as there might not be an AcroForm entry a null check is necessary
         if (acroForm!= null)
         {
             // Retrieve an individual field and set its value.
-            PDField field = acroForm.getField("home_address_1");
-            field.setValue("Text Entry");
-
-            field = acroForm.getField("colour");
-            field.setValue("Text Entry");
-
-            field = acroForm.getField("today's_date_1");
-            field.setValue("Text Entry");
+            acroForm.getField("home_address_1").setValue(event.getClient().getAddress());
+            acroForm.getField("colour").setValue(event.getFenceColour());
+            acroForm.getField("today's_date_1").setValue(formattedDate);
 
             //sides
-            field = acroForm.getField("side_1");
-            field.setValue("Side 1");
-            field = acroForm.getField("side_1_price");
-            field.setValue("Text Entry");
+            if (event.getModel().getSides() != null) { //and size <= 4
+                List<Side> sides = event.getModel().getSides();
+                int i = 1;
+                for (Side side : sides) {
+                    acroForm.getField("side_" + i).setValue("Side " + i);
+                    acroForm.getField("side_" + i + "_price").setValue(String.valueOf(side.getSideLength() * event.getModel().linearSquareFootPrice));
+                }
+            }
 
             //gates
-            field = acroForm.getField("gate_1");
-            field.setValue("Gate 1");
-            field = acroForm.getField("gate_1_price");
-            field.setValue("Text Entry");
+            if (event.getModel().getGates() != null) { //and size <= 4
+                List<Gate> gates = event.getModel().getGates();
+                int i = 1;
+                for (Gate gate : gates) {
+                    acroForm.getField("gate_" + i).setValue("Gate " + i);
+                    acroForm.getField("gate_" + i + "_price").setValue(String.valueOf(gate.getGatePrice()));
+                }
+            }
 
             //gatewall
-            field = acroForm.getField("gate_wall");
-            field.setValue("Gate Wall");
-            field = acroForm.getField("gatewall_price");
-            field.setValue("Text Entry");
+            if (event.getModel().getGateWalls() != null) { //and size <= 4
+                List<GateWall> gateWalls = event.getModel().getGateWalls();
+                int i = 1;
+                for (GateWall gateWall : gateWalls) {
+                    acroForm.getField("gate_wall").setValue("GateWall ");
+                    acroForm.getField("gate_wall").setValue(String.valueOf(gateWall.getGateWallPrice()));
+                }
+            }
 
-            field = acroForm.getField("subtotal");
-            field.setValue("Text Entry");
+            acroForm.getField("subtotal").setValue(String.valueOf(event.getModel().calculateSubTotalPrice()));
+            acroForm.getField("hst").setValue(String.valueOf(event.getModel().calculateTax(event.getModel().totalPrice, event.getTaxPercentage())));
+            acroForm.getField("total").setValue(String.valueOf(event.getModel().totalPrice));
+            acroForm.getField("linear_foot_price").setValue(String.valueOf(event.getPricePerLinearFoot()));
+            acroForm.getField("document_name").setValue(this.filledForm);
 
-            field = acroForm.getField("hst");
-            field.setValue("Text Entry");
+            //not done on this version of the pdf
+            //acroForm.getField("commence_date").setValue(event.getDate().toString());
+            //acroForm.getField("contract_number").setValue(String.valueOf(event.getContractNumber()));
+            acroForm.getField("cost_for_proj_hst").setValue(String.valueOf(event.getModel().totalPrice));
 
-            field = acroForm.getField("total");
-            field.setValue("Text Entry");
-
-            field = acroForm.getField("linear_foot_price");
-            field.setValue("Text Entry");
-
-            field = acroForm.getField("document_name");
-            field.setValue("Text Entry");
-
-            field = acroForm.getField("cost_for_proj_hst");
-            field.setValue("Text Entry");
-
-            field = acroForm.getField("upon_acceptance");
-            field.setValue("Text Entry");
-
-            field = acroForm.getField("upon_metal");
-            field.setValue("Text Entry");
-
-            field = acroForm.getField("upon_completion");
-            field.setValue("Text Entry");
-
-            field = acroForm.getField("today's_date_2");
-            field.setValue("Text Entry");
-
-            field = acroForm.getField("home_address_2");
-            field.setValue("Text Entry");
-
-            //To be completed.
+            double payment1 = Math.floor(event.getModel().totalPrice * 0.2);
+            double payment2 = Math.floor(event.getModel().totalPrice * 0.4);
+            acroForm.getField("upon_acceptance").setValue(String.valueOf(payment1));
+            acroForm.getField("upon_metal").setValue(String.valueOf(payment2));
+            acroForm.getField("upon_completion").setValue(String.valueOf((event.getModel().totalPrice) - (payment1 + payment2)));
+            acroForm.getField("today's_date_2").setValue(formattedDate);
+            acroForm.getField("home_address_2").setValue(event.getClient().getAddress());
         }
         // Save and close the filled out form.
         pdfDocument.save(filledForm);

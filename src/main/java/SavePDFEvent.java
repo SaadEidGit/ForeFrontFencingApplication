@@ -1,32 +1,27 @@
 import java.util.EventObject;
 
-public class SavePDFEvent extends EventObject {
+public class SavePDFEvent {
 
+    private Model model;
     private Client client;
     private Date date;
     private double pricePerLinearFoot, taxPercentage;
-    private int dateDay, dateYear;
-    private String dateMonth, fenceColour;
+    private String fenceColour, contractNumber;
 
 
-    /**
-     * Constructs a prototypical Event.
-     *
-     * @param model the object on which the Event initially occurred
-     * @throws IllegalArgumentException if source is null
-     */
-    public SavePDFEvent(Model model, Client client, Date date, double pricePerLinearFoot, double taxPercentage,int dateDay, String dateMonth,int dateYear, String fenceColour) {
-        super(model);
+    public SavePDFEvent(Model model, Client client, Date date, double pricePerLinearFoot, double taxPercentage, String fenceColour, String contractNumber) {
+        this.model = model;
         this.client = client;
         this.date = date;
         this.pricePerLinearFoot = pricePerLinearFoot;
         this.taxPercentage = taxPercentage;
-        this.dateDay = dateDay;
-        this.dateMonth = dateMonth;
-        this.dateYear = dateYear;
         this.fenceColour = fenceColour;
+        this.contractNumber = contractNumber;
     }
 
+    public Model getModel() {
+        return model;
+    }
     public Client getClient() {
         return client;
     }
@@ -43,19 +38,11 @@ public class SavePDFEvent extends EventObject {
         return taxPercentage;
     }
 
-    public int getDateDay() {
-        return dateDay;
-    }
-
-    public String getDateMonth() {
-        return dateMonth;
-    }
-
-    public int getDateYear() {
-        return dateYear;
-    }
-
     public String getFenceColour() {
         return fenceColour;
+    }
+
+    public String getContractNumber() {
+        return contractNumber;
     }
 }

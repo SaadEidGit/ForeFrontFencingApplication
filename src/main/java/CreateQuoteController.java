@@ -111,6 +111,7 @@ public class CreateQuoteController implements ActionListener {
             Date date = new Date(dateYear, dateMonth, dateDay);
 
             String fenceColour =  frame.colourField.getText();
+            String contractNumber = frame.contractNumberField.getText();
 
             /*TODO: save all fields into the pdf.Pass in the client object, the date object, pricePerLinearFoot,
              * and taxPercentage to the pdf method
@@ -119,7 +120,7 @@ public class CreateQuoteController implements ActionListener {
             model.constuctPDFFilePath(fileName);
 
             try {
-                SavePDFEvent event = new SavePDFEvent(model, client, date, pricePerLinearFoot, taxPercentage, dateDay, dateMonth, dateYear, fenceColour);
+                SavePDFEvent event = new SavePDFEvent(model, client, date, pricePerLinearFoot, taxPercentage, fenceColour, contractNumber);
                 model.fillPDFForm(event);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
