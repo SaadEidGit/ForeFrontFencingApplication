@@ -7,6 +7,8 @@ public class SavePDFEvent extends EventObject {
     private double pricePerLinearFoot, taxPercentage;
     private int dateDay, dateYear;
     private String dateMonth, fenceColour;
+
+
     /**
      * Constructs a prototypical Event.
      *
@@ -51,5 +53,9 @@ public class SavePDFEvent extends EventObject {
 
     public int getDateYear() {
         return dateYear;
+    }
+
+    public String getFenceColour() {
+        return fenceColour;
     }
 }
