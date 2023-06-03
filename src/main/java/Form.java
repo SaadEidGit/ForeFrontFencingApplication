@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -66,7 +65,6 @@ public class Form extends JFrame implements FormView{
     }
 
     private JPanel createSetupForm() throws IOException {
-        //TODO: add controller
         JPanel gridPanel = new JPanel();
         gridPanel.setLayout(new GridLayout(8, 2));
         JPanel buttonPanel = new JPanel();
@@ -320,30 +318,35 @@ public class Form extends JFrame implements FormView{
         leftPane.setLayout(new GridLayout(5, 2));
 
         JLabel firstNameLabel = new JLabel("First Name:");
+        firstNameLabel.setHorizontalAlignment(JLabel.CENTER);
         leftPane.add(firstNameLabel);
         firstNameCreateUserField = new JTextField();
         firstNameCreateUserField.setBorder(BorderFactory.createLineBorder(Color.black));
         leftPane.add(firstNameCreateUserField);
 
         JLabel lastNameLabel = new JLabel("Last Name:");
+        lastNameLabel.setHorizontalAlignment(JLabel.CENTER);
         leftPane.add(lastNameLabel);
         lastNameCreateUserField = new JTextField();
         lastNameCreateUserField.setBorder(BorderFactory.createLineBorder(Color.black));
         leftPane.add(lastNameCreateUserField);
 
         JLabel emailLabel = new JLabel("Email:");
+        emailLabel.setHorizontalAlignment(JLabel.CENTER);
         leftPane.add(emailLabel);
         emailCreateUserField = new JTextField();
         emailCreateUserField.setBorder(BorderFactory.createLineBorder(Color.black));
         leftPane.add(emailCreateUserField);
 
         JLabel phoneLabel = new JLabel("Phone Number:");
+        phoneLabel.setHorizontalAlignment(JLabel.CENTER);
         leftPane.add(phoneLabel);
         phoneCreateUserField = new JTextField();
         phoneCreateUserField.setBorder(BorderFactory.createLineBorder(Color.black));
         leftPane.add(phoneCreateUserField);
 
         JLabel addressLabel = new JLabel("Address:");
+        addressLabel.setHorizontalAlignment(JLabel.CENTER);
         leftPane.add(addressLabel);
         addressCreateUserArea = new JTextField();
         addressCreateUserArea.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -502,7 +505,6 @@ public class Form extends JFrame implements FormView{
 
         return textFields;
     }
-
 
     @Override
     public void update(SavePDFEvent e) {

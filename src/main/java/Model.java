@@ -19,6 +19,12 @@ public class Model {
         this.gateWalls = new ArrayList<>();
         this.excelFileService = new ExcelFileService();
         this.pdfFileService = new PDFFileService();
+
+        try {
+            this.filePath = FilePath.getExcelFilePath();
+        }catch(Exception e){
+            System.out.println("File path not found");
+        }
     }
 
     public ArrayList<Side> getSides() {
