@@ -12,7 +12,7 @@ public class Form extends JFrame implements FormView{
     private JPanel contentPanel;
     private JTabbedPane tabbedPane;
     //Create Quote Form
-    public JTextField firstNameField, lastNameField, emailField, phoneField, addressArea, priceArea, totalPriceField, taxPercentageField, colourField, contractNumberField;
+    public JTextField firstNameField, lastNameField, emailField, phoneField, addressArea, priceArea, totalPriceField, taxPercentageField, colourField, contractNumberField, fenceHeightField;
     //Create User form
     public JTextField firstNameCreateUserField, lastNameCreateUserField, emailCreateUserField, phoneCreateUserField, addressCreateUserArea;
     //Setup file path form
@@ -39,7 +39,7 @@ public class Form extends JFrame implements FormView{
     private String years[] = new String[5];
 
     public Form() throws IOException, UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-        super("Registration Form");
+        super("ForeFront Fencing Application");
         setBounds(300, 90, 900, 600);
         setSize(500,550);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -148,7 +148,7 @@ public class Form extends JFrame implements FormView{
         // Add the list of years to the years array
         getYearList();
         mainSubPane = new JPanel();
-        mainSubPane.setLayout(new GridLayout(10, 2));
+        mainSubPane.setLayout(new GridLayout(11, 2));
 
         JLabel firstNameLabel = new JLabel("First Name:");
         firstNameLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -191,6 +191,13 @@ public class Form extends JFrame implements FormView{
         colourField = new JTextField();
         colourField.setBorder(BorderFactory.createLineBorder(Color.black));
         mainSubPane.add(colourField);
+
+        JLabel fenceHeightLabel = new JLabel("Fence Height (FT):");
+        fenceHeightLabel.setHorizontalAlignment(JLabel.CENTER);
+        mainSubPane.add(fenceHeightLabel);
+        fenceHeightField = new JTextField();
+        fenceHeightField.setBorder(BorderFactory.createLineBorder(Color.black));
+        mainSubPane.add(fenceHeightField);
 
         JLabel priceLabel = new JLabel("Price Per Linear Foot:");
         priceLabel.setHorizontalAlignment(JLabel.CENTER);

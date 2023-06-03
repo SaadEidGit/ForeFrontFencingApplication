@@ -6,10 +6,10 @@ public class SavePDFEvent {
     private Client client;
     private Date date;
     private double pricePerLinearFoot, taxPercentage;
-    private String fenceColour, contractNumber;
+    private String fenceColour, contractNumber, fenceHeight;
 
 
-    public SavePDFEvent(Model model, Client client, Date date, double pricePerLinearFoot, double taxPercentage, String fenceColour, String contractNumber) {
+    public SavePDFEvent(Model model, Client client, Date date, double pricePerLinearFoot, double taxPercentage, String fenceColour, String contractNumber, String fenceHeight) {
         this.model = model;
         this.client = client;
         this.date = date;
@@ -17,6 +17,7 @@ public class SavePDFEvent {
         this.taxPercentage = taxPercentage;
         this.fenceColour = fenceColour;
         this.contractNumber = contractNumber;
+        this.fenceHeight = fenceHeight;
     }
 
     public Model getModel() {
@@ -44,5 +45,8 @@ public class SavePDFEvent {
 
     public String getContractNumber() {
         return contractNumber;
+    }
+    public String getFenceHeight() {
+        return fenceHeight;
     }
 }

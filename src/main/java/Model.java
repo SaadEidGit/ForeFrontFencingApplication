@@ -41,7 +41,13 @@ public class Model {
     }
 
     public double calculateTax(double amount, double taxPercentage){
-        return amount*(taxPercentage/100);
+        double taxAmount = 0;
+        if (taxPercentage == 0) {
+            return amount;
+        }else if (taxPercentage > 0){
+            taxAmount = amount*(taxPercentage/100);
+        }
+        return taxAmount;
     }
 
     public void addClientToExcel(Client client){

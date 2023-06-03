@@ -32,15 +32,21 @@ public class CreateQuoteController implements ActionListener {
 
                         if (label.getText().equals("Gate Price   ")){
                             JTextField textField = (JTextField) components[1];
-                            model.removeLastGate(new Gate(Double.parseDouble(textField.getText())));
+                            if (!textField.getText().isEmpty()){
+                                model.removeLastGate(new Gate(Double.parseDouble(textField.getText())));
+                            }
                             break;
                         }else if (label.getText().equals("Side Length")){
                             JTextField textField = (JTextField) components[1];
-                            model.removeLastSide(new Side(Double.parseDouble(textField.getText())));
+                            if (!textField.getText().isEmpty()) {
+                                model.removeLastSide(new Side(Double.parseDouble(textField.getText())));
+                            }
                             break;
                         }else if (label.getText().equals("Gate Wall Price")){
                             JTextField textField = (JTextField) components[1];
-                            model.removeLastGateWall(new GateWall(Double.parseDouble(textField.getText())));
+                            if (!textField.getText().isEmpty()) {
+                                model.removeLastGateWall(new GateWall(Double.parseDouble(textField.getText())));
+                            }
                             break;
                         }
                     }
@@ -91,12 +97,17 @@ public class CreateQuoteController implements ActionListener {
                 frame.saveQuoteButton.setEnabled(true);
             }
         }else if(e.getSource() == frame.saveQuoteButton){
+            // Do a recalculation in case the user pressed the generate quote button
+            // and then updated the numbers without pressing generate quote button again
+            model.setLinearSquareFootPrice(Double.parseDouble(frame.priceArea.getText()));
+            model.calculateTotalPrice(Double.parseDouble(frame.taxPercentageField.getText()));
+            frame.totalPriceField.setText(String.valueOf(model.getTotalPrice()));
+
             Client client = new Client(frame.firstNameField.getText(),
                     frame.lastNameField.getText(),
                     frame.emailField.getText(),
                     frame.phoneField.getText(),
                     frame.addressArea.getText());
-            System.out.println(client);
 
             double pricePerLinearFoot = Double.parseDouble(frame.priceArea.getText());
             System.out.println("pricePerLinearFoot: " + pricePerLinearFoot);
@@ -108,19 +119,17 @@ public class CreateQuoteController implements ActionListener {
             System.out.println("dateMonth: " + dateMonth);
             int dateYear = Integer.parseInt((String) frame.yearsCombo.getSelectedItem());
             System.out.println("dateYear: " + dateYear);
-            Date date = new Date(dateYear, dateMonth, dateDay);
+            Date date = new Date(dateDay, dateMonth,dateYear);
 
             String fenceColour =  frame.colourField.getText();
             String contractNumber = frame.contractNumberField.getText();
+            String fenceHeight = frame.fenceHeightField.getText() + " FT";
 
-            /*TODO: save all fields into the pdf.Pass in the client object, the date object, pricePerLinearFoot,
-             * and taxPercentage to the pdf method
-             */
             String fileName = JOptionPane.showInputDialog(frame, "Please provide the file name for the PDF file.");
             model.constuctPDFFilePath(fileName);
 
             try {
-                SavePDFEvent event = new SavePDFEvent(model, client, date, pricePerLinearFoot, taxPercentage, fenceColour, contractNumber);
+                SavePDFEvent event = new SavePDFEvent(model, client, date, pricePerLinearFoot, taxPercentage, fenceColour, contractNumber, fenceHeight);
                 model.fillPDFForm(event);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);

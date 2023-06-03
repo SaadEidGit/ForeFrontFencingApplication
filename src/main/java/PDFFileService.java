@@ -103,13 +103,15 @@ public class PDFFileService
             acroForm.getField("subtotal").setValue(String.valueOf(event.getModel().calculateSubTotalPrice()));
             acroForm.getField("hst").setValue(String.valueOf(event.getModel().calculateTax(event.getModel().totalPrice, event.getTaxPercentage())));
             acroForm.getField("total").setValue(String.valueOf(event.getModel().totalPrice));
-            acroForm.getField("linear_foot_price").setValue(String.valueOf(event.getPricePerLinearFoot()));
+            //acroForm.getField("linear_foot_price").setValue(String.valueOf(event.getPricePerLinearFoot()));
             acroForm.getField("document_name").setValue(this.formName);
 
-            //not done on this version of the pdf
-            //acroForm.getField("commence_date").setValue(event.getDate().toString());
-            //acroForm.getField("contract_number_1").setValue(String.valueOf(event.getContractNumber()));
-            //acroForm.getField("contract_number_2").setValue(String.valueOf(event.getContractNumber()));
+            acroForm.getField("commence_date").setValue(event.getDate().toString());
+            acroForm.getField("contract_number_1").setValue(String.valueOf(event.getContractNumber()));
+            acroForm.getField("contract_number_2").setValue(String.valueOf(event.getContractNumber()));
+            acroForm.getField("fence_height").setValue(event.getFenceHeight());
+            acroForm.getField("note_1").setValue("* PVC Fence " + event.getFenceHeight() + " Height " + event.getFenceColour());
+            acroForm.getField("note_2").setValue("* Linear feet cost " + event.getPricePerLinearFoot());
             acroForm.getField("cost_for_proj_hst").setValue(String.valueOf(event.getModel().totalPrice));
 
             double payment1 = Math.floor(event.getModel().totalPrice * 0.2);
